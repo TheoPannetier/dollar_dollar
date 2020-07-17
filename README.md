@@ -1,1 +1,2 @@
-This is a minimal example of a book based on R Markdown and **bookdown** (https://github.com/rstudio/bookdown). Please see the page "Get Started" at https://bookdown.org/home/about/ for how to compile this example.
+# dollar_dollar
+Math notes, equations, cheat lists, pretty much anything that fits between two dollar signs. Personal notebook, but feel free to use!
