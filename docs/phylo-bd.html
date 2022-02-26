@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 2 Phylogenetic birth-death models | A Minimal Book Example</title>
+  <meta name="description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 2 Phylogenetic birth-death models | A Minimal Book Example" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 2 Phylogenetic birth-death models | A Minimal Book Example" />
+  
+  <meta name="twitter:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  
+
+<meta name="author" content="Yihui Xie" />
+
+
+<meta name="date" content="2022-02-15" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="intro.html"/>
+<link rel="next" href="otto-day.html"/>
+<script src="libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">A Minimal Book Example</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Prerequisites</a></li>
+<li class="chapter" data-level="" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i>About bookdown</a></li>
+<li class="chapter" data-level="2" data-path="phylo-bd.html"><a href="phylo-bd.html"><i class="fa fa-check"></i><b>2</b> Phylogenetic birth-death models</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="phylo-bd.html"><a href="phylo-bd.html#louca"><i class="fa fa-check"></i><b>2.1</b> <span class="citation"><span>Louca and Pennell</span> (<span>2020</span>)</span></a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="phylo-bd.html"><a href="phylo-bd.html#derivation-of-ntau-mtau-and-etau"><i class="fa fa-check"></i><b>2.1.1</b> Derivation of <span class="math inline">\(N(\tau)\)</span>, <span class="math inline">\(M(\tau)\)</span> and <span class="math inline">\(E(\tau)\)</span></a></li>
+<li class="chapter" data-level="2.1.2" data-path="phylo-bd.html"><a href="phylo-bd.html#psr-pdr-psr-pdr"><i class="fa fa-check"></i><b>2.1.2</b> PSR, PDR { #psr-pdr }</a></li>
+<li class="chapter" data-level="2.1.3" data-path="phylo-bd.html"><a href="phylo-bd.html#likelihood-likelihood"><i class="fa fa-check"></i><b>2.1.3</b> Likelihood { #likelihood }</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="phylo-bd.html"><a href="phylo-bd.html#morlon-2011"><i class="fa fa-check"></i><b>2.2</b> <span class="citation"><span>Morlon, Parsons, and Plotkin</span> (<span>2011</span>)</span></a>
+<ul>
+<li><a href="phylo-bd.html#derive-e">Derivation of <span class="math inline">\(E(\tau)\)</span> equations</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="otto-day.html"><a href="otto-day.html"><i class="fa fa-check"></i><b>3</b> Otto &amp; Day shortcuts</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="otto-day.html"><a href="otto-day.html#disc-to-cont"><i class="fa fa-check"></i><b>3.1</b> Derive a continuous model from a discrete model</a></li>
+<li class="chapter" data-level="" data-path="otto-day.html"><a href="otto-day.html#solution"><i class="fa fa-check"></i>General solution of a model</a>
+<ul>
+<li class="chapter" data-level="" data-path="otto-day.html"><a href="otto-day.html#solution-lin-cont-single"><i class="fa fa-check"></i>Linear models, continuous time, single variable</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">A Minimal Book Example</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="phylo-bd" class="section level1" number="2">
+<h1><span class="header-section-number">Chapter 2</span> Phylogenetic birth-death models</h1>
+<p>Equations from the litterature to describe birth-death processes in the context of phylogenetic (time)trees.</p>
+<div id="louca" class="section level2" number="2.1">
+<h2><span class="header-section-number">2.1</span> <span class="citation"><a href="#ref-louca_extant_2020" role="doc-biblioref">Louca and Pennell</a> (<a href="#ref-louca_extant_2020" role="doc-biblioref">2020</a>)</span></h2>
+<div id="derivation-of-ntau-mtau-and-etau" class="section level3" number="2.1.1">
+<h3><span class="header-section-number">2.1.1</span> Derivation of <span class="math inline">\(N(\tau)\)</span>, <span class="math inline">\(M(\tau)\)</span> and <span class="math inline">\(E(\tau)\)</span></h3>
+<ul>
+<li><p><span class="math inline">\(N(\tau)\)</span> number of species in the tree at time <span class="math inline">\(\tau\)</span> in the past</p></li>
+<li><p><span class="math inline">\(M(\tau)\)</span> is the dLTT = the expected (under the model) number of lineages in the tree at time <span class="math inline">\(\tau\)</span> that will be present in the tree at present</p></li>
+<li><p><span class="math inline">\(E(\tau)\)</span> fraction of lineages in the tree at time <span class="math inline">\(\tau\)</span> that won’t be in the tree anymore at present</p></li>
+</ul>
+<p>We note:</p>
+<ul>
+<li><span class="math inline">\(\lambda\)</span> and <span class="math inline">\(\mu\)</span> the birth and death rate resp., which can be time-dependent (<span class="math inline">\(\lambda(t)\)</span>, <span class="math inline">\(\mu(t)\)</span>)</li>
+<li><span class="math inline">\(\rho\)</span> the sampling fraction <em>at present</em>, such that <span class="math inline">\(M_0 = N_0 \rho\)</span> is the number of species sampled in the present tree (and <span class="math inline">\(N_0\)</span> is the total <strong>living</strong> diversity)</li>
+</ul>
+<p>Going backwards in time (<span class="math inline">\(\tau\)</span> is some time before present):</p>
+<span class="math display" id="eq:nbackwards">\[\begin{align}
+  \frac{dN}{d\tau} &amp;= N(\mu - \lambda) \\
+   &amp;= N(-r) \tag{2.1}
+\end{align}\]</span>
+<p>The solution of which is (perform a separation of variables):</p>
+<span class="math display" id="eq:nbalive">\[\begin{align}
+  N(\tau) &amp;= N_{0}e^{\left[ \int_0^\tau \mu(u) - \lambda(u) du \right]} \tag{2.2}
+\end{align}\]</span>
+<p>i.e. the number of species alive (but not necessarily sampled in the tree) at time <span class="math inline">\(\tau\)</span> in the past.</p>
+<p>Let’s introduce <span class="math inline">\(E(\tau)\)</span>, the fraction of lineages alive at time <span class="math inline">\(\tau\)</span> that won’t be included in the final tree, because of either extinction or being missing from the sample. In a stochastic setting, it is also the probability that a single lineage will be missing from the final tree. <span class="math inline">\(E(\tau)\)</span> is introduced in <span class="citation"><a href="#ref-morlon_reconciling_2011" role="doc-biblioref">Morlon, Parsons, and Plotkin</a> (<a href="#ref-morlon_reconciling_2011" role="doc-biblioref">2011</a>)</span>, eqs. 5-7 (where it is named <span class="math inline">\(\phi(t)\)</span>) (see also the derivation below):</p>
+<span class="math display" id="eq:fracmissing">\[\begin{align}
+\frac{dE}{d\tau} &amp;= \mu - E (\lambda + \mu) + E^2\lambda \\
+E(0) &amp;= 1 - \rho 
+\tag{2.3}
+\end{align}\]</span>
+<p>Its solution is (eq. 2 in <span class="citation"><a href="#ref-morlon_reconciling_2011" role="doc-biblioref">Morlon, Parsons, and Plotkin</a> (<a href="#ref-morlon_reconciling_2011" role="doc-biblioref">2011</a>)</span>):</p>
+<p><span class="math display" id="eq:fracmissingsol">\[
+E(\tau) = 1 - \frac{e^{\int_0^\tau \lambda(u) - \mu(u) du}}{\frac{1}{\rho} + \int_0^\tau e^{\int_0^s \lambda(u) - \mu(u) du} \lambda_s ds} 
+\tag{2.4}
+\]</span></p>
+<p>where <span class="math inline">\(s\)</span> is some time before <span class="math inline">\(\tau\)</span>, and <span class="math inline">\(\rho\)</span> is the probability that an extant lineage is sampled at present, aka sampling fraction.</p>
+<p>The deterministic LTT, i.e. the number of lineages present in the final tree, through time, is (by definition of <span class="math inline">\(M\)</span> and <span class="math inline">\(E\)</span>) given by:</p>
+<p><span class="math display" id="eq:dltt">\[
+M(\tau) = N(\tau)(1 - E(\tau)) 
+\tag{2.5}
+\]</span></p>
+<p>Taking the derivative and replacing with <a href="phylo-bd.html#eq:nbackwards">(2.1)</a> and <a href="phylo-bd.html#eq:fracmissing">(2.3)</a> yields</p>
+<p><span class="math display" id="eq:dltt-deriv">\[
+  \frac{dM}{d\tau} = M\lambda(E-1)
+  \tag{2.6}
+\]</span>Notice that <span class="math inline">\((E - 1)\)</span> is most likely negative, <span class="math inline">\(M\)</span> declines as we go in the past, ok. If all lineages will be included in the tree (<span class="math inline">\(E = 0\)</span>, which requires <span class="math inline">\(\mu = 0\)</span>), then <span class="math inline">\(M\)</span> simply changes by <span class="math inline">\(-M\lambda\)</span>, that is the growth rate.</p>
+<p>The solution to <a href="phylo-bd.html#eq:dltt-deriv">(2.6)</a> (taking <span class="math inline">\(M(0) = M_0\)</span> and using a separation of variables) is:</p>
+<p><span class="math display" id="eq:dltt2">\[
+  M(\tau) = M_0e^{\int_0^\tau \lambda(u) (E(u) - 1) du}
+  \tag{2.7}
+\]</span> This equation fully describes the LTT expected given the birth-death model, aka the <strong>dLTT</strong>.</p>
+<p><strong>Remarks</strong></p>
+<ul>
+<li>All terms in this equation are independent of the data! So model congruency (sharing the same dLTT) is a property of the models alone.</li>
+<li>Extinction does not appear in <a href="phylo-bd.html#eq:dltt2">(2.7)</a>, but is in fact hidden in <span class="math inline">\(E(\tau)\)</span></li>
+<li>In <a href="phylo-bd.html#eq:dltt-deriv">(2.6)</a>, <span class="math inline">\(0&lt;E&lt;1\)</span>, so that the rhs is negative or zero: we move backwards in time and lose lineages in the phylogeny, proportionally to rate <span class="math inline">\(\lambda\)</span>. The term <span class="math inline">\(\lambda(E-1)\)</span> (“growth” rate) can be developped into <span class="math inline">\(\lambda E - \lambda\)</span>, illustrating that we are gaining lineages that would disappear later in time, and losing those that speciate later.</li>
+</ul>
+</div>
+<div id="psr-pdr-psr-pdr" class="section level3" number="2.1.2">
+<h3><span class="header-section-number">2.1.2</span> PSR, PDR { #psr-pdr }</h3>
+<ul>
+<li><p>PSR: pulled speciation rate, the relative slope of <span class="math inline">\(M(\tau)\)</span></p>
+<p><span class="math inline">\(\lambda(\tau) = -\frac{1}{M}\frac{dM}{d\tau}\)</span></p></li>
+<li><p>PDR: pulled diversification rate</p></li>
+</ul>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="phylo-bd.html#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">r</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">15</span>)</span></code></pre></div>
+<pre><code>##  [1] 0.6 0.6 0.6 0.6 0.6 0.6 0.6 0.6 0.6 0.6 0.6 0.6 0.6 0.6 0.6 0.6</code></pre>
+</div>
+<div id="likelihood-likelihood" class="section level3" number="2.1.3">
+<h3><span class="header-section-number">2.1.3</span> Likelihood { #likelihood }</h3>
+<p>After <span class="citation"><a href="#ref-morlon_reconciling_2011" role="doc-biblioref">Morlon, Parsons, and Plotkin</a> (<a href="#ref-morlon_reconciling_2011" role="doc-biblioref">2011</a>)</span>:</p>
+<p><span class="math display" id="eq:likelihood-morlon">\[
+L = \frac{\rho^{n+1} \Psi(\tau_1, \tau_0)}{ 1 - E(\tau_0)}\prod_{i = 1}^n \lambda(\tau_i) \Psi(s_{i,1}, \tau_i) \Psi(s_{i,2}, \tau_i) \tag{2.8}
+\]</span></p>
+<ul>
+<li><p><span class="math inline">\(n\)</span> branching points (<span class="math inline">\(n+1\)</span> lineages at time <span class="math inline">\(0\)</span>)</p></li>
+<li><p><span class="math inline">\(\tau_0\)</span> stem age, <span class="math inline">\(\tau_1\)</span> crown age, <span class="math inline">\(\tau_i\)</span> branching points, <span class="math inline">\(s_{i, 1}\)</span> , <span class="math inline">\(s_{i, 2}\)</span> branching points of daughter lineages.</p></li>
+<li><p><span class="math inline">\(\rho\)</span> sampling fraction (<span class="math inline">\(\rho^{n+1}\)</span> p that all lineages are sampled)</p></li>
+<li><p>conditioning <span class="math inline">\(\frac{1}{1 - E(\tau_0)}\)</span> that stem lineage survives and is observed</p></li>
+<li><p><span class="math inline">\(\Psi(s, \tau)\)</span> p that a lineage alive at time <span class="math inline">\(\tau\)</span> has <em>exactly one</em> descendant at time <span class="math inline">\(s\)</span> = probability of observing each branch.</p></li>
+</ul>
+<p><span class="math display" id="eq:psi">\[
+\Psi(s, \tau) = e^{R(\tau) - R(s)} \Big[\frac{1 + \rho \int_0^s \lambda(u) e^{R(u)} du}{1 + \rho \int_0^\tau \lambda(u) e^{R(u)} du} \Big]^2 \tag{2.9}
+\]</span></p>
+<p>where <span class="math inline">\(R(\tau)\)</span> is the integral of the net diversification rate</p>
+<p><span class="math display">\[
+R(\tau) = \int_0^\tau \lambda(u) - \mu(u) du
+\]</span></p>
+<p>Because the probabilities of the branches cancel out, <a href="phylo-bd.html#eq:likelihood-morlon">(2.8)</a> simplifies to:</p>
+<p><span class="math display" id="eq:likelihood-morlon2">\[
+L = \frac{\rho^{n+1} \Psi(0, \tau_0)}{ 1 - E(\tau_0)}\prod_{i = 1}^n \lambda(\tau_i) \Psi(0, \tau_i) \tag{2.10}
+\]</span></p>
+<p>using the definitions of the PSR and PDR, the likelihood can be rewritten as</p>
+<p><span class="math display" id="eq:likelihood-louca">\[
+L = \frac{M(\tau_0)}{M_0^{n+1}}\prod_{i = 1}^n \lambda_p(\tau_i) M(\tau_i) \tag{2.11}
+\]</span></p>
+<p>which, applying the def of the PSR, turns into</p>
+<p><span class="math display" id="eq:likelihood-louca2">\[
+L = \frac{M(\tau_0)}{M_0^{n+1}}\prod_{i = 1}^n -\frac{dM}{d\tau}|_{\tau_{i}}\tag{2.12}
+\]</span></p>
+<p>(vertical bar denotes that <span class="math inline">\(d\tau\)</span> is evaluated at <span class="math inline">\(\tau_i\)</span>, so the instantaneous change in <span class="math inline">\(M\)</span> at this point in time)</p>
+<p>There are also variants if only the crown age, and not the stem age, is known:</p>
+<p><span class="math display" id="eq:likelihood-morlon-crown">\[
+L_r = \frac{\rho^{n+1} \Psi(0, \tau_1)}{\lambda(\tau_1)[1 - E(\tau_1)]^2}\prod_{i = 1}^n \lambda(\tau_i) \Psi(0, \tau_i) \tag{2.13}
+\]</span></p>
+<p><span class="math display" id="eq:likelihood-louca-crown">\[
+L_r = \frac{M^2(\tau_1)}{M_0^{n+1}}\prod_{i = 2}^n -\frac{dM}{d\tau}|_{\tau_{i}}\tag{2.14}
+\]</span></p>
+</div>
+</div>
+<div id="morlon-2011" class="section level2" number="2.2">
+<h2><span class="header-section-number">2.2</span> <span class="citation"><a href="#ref-morlon_reconciling_2011" role="doc-biblioref">Morlon, Parsons, and Plotkin</a> (<a href="#ref-morlon_reconciling_2011" role="doc-biblioref">2011</a>)</span></h2>
+<div id="derive-e" class="section level3 unnumbered">
+<h3>Derivation of <span class="math inline">\(E(\tau)\)</span> equations</h3>
+<p><span class="math inline">\(E(\tau)\)</span> (or <span class="math inline">\(\Phi(t)\)</span> in <span class="citation"><a href="#ref-morlon_reconciling_2011" role="doc-biblioref">Morlon, Parsons, and Plotkin</a> (<a href="#ref-morlon_reconciling_2011" role="doc-biblioref">2011</a>)</span>) denotes the probability that a lineage alive at <span class="math inline">\(\tau\)</span> won’t have any descendant included in the final tree.</p>
+<p>There are three main combinations of events that can lead to a lineage not having descendants in the final tree: 1. Lineage goes extinct (with probability <span class="math inline">\(\mu(\tau)\)</span> in a single time unit) 2. No extinction (<span class="math inline">\(1 - \mu(\tau)\)</span>), no speciation (<span class="math inline">\(1 - \lambda(\tau)\)</span>), lineage not observed at present (<span class="math inline">\(E(\tau)\)</span>). 3. No extinction (<span class="math inline">\(1 - \mu(\tau)\)</span>), lineage undergoes speciation (<span class="math inline">\(\lambda(\tau)\)</span>) but neither parent or daughter are observed at present (<span class="math inline">\(E(\tau) * E(\tau)\)</span>).</p>
+<p>From this the following recursion can be written:</p>
+<span class="math display">\[\begin{align}
+  E(\tau + 1) &amp;= \mu \\
+  &amp; + (1 - \mu(\tau))(1 - \lambda(\tau)) E(\tau) \\
+  &amp; + (1 - \mu(\tau)) \lambda(\tau) E(\tau)^2 \\
+  &amp; + o(\tau)
+\end{align}\]</span>
+<p>More complex series of events (e.g. multiple speciation events followed by extinction or non-sampling) are assumed very unlikely to happen in the typical time intervals and rates considered; and thus ignored (<span class="math inline">\(o(\tau)\)</span>.</p>
+<p>Deriving an ODE from this recursion goes as follows (see <a href="otto-day.html#disc-to-cont">3.1</a> ):</p>
+<span class="math display">\[\begin{align}
+  E(\tau + \Delta \tau) &amp;= \mu\Delta \tau \\
+  &amp; + (1 - \mu(\tau)\Delta \tau)(1 - \lambda(\tau)\Delta \tau) E(\tau) \\
+  &amp; + (1 - \mu(\tau)\Delta \tau) \lambda(\tau)\Delta \tau E(\tau)^2 \\
+  
+  E(\tau + \Delta \tau) - E(\tau) &amp;= \mu\Delta \tau \\
+  &amp; - (\lambda + \mu + \lambda \mu \Delta \tau^2) \Delta \tau E(\tau) \\
+  &amp; + (1 - \mu(\tau)\Delta \tau) \lambda(\tau)\Delta \tau E(\tau)^2 \\
+
+  \frac{E(\tau + \Delta \tau) - E(\tau)}{\Delta\tau} &amp;= \mu \\
+  &amp; - (\lambda + \mu + \lambda \mu \Delta \tau^2) E(\tau) \\
+  &amp; + (1 - \mu(\tau)\Delta \tau) \lambda(\tau) E(\tau)^2
+  \\
+
+\lim_{\Delta\tau \to 0} \frac{E(\tau + \Delta \tau) - E(\tau)}{\Delta\tau} &amp;= \mu \\
+  &amp; - (\lambda + \mu) E(\tau) \\
+  &amp; + \lambda(\tau) E(\tau)^2
+  \\
+
+\frac{dE}{d\tau} &amp;= \mu - (\lambda + \mu) E(\tau) + \lambda(\tau) E(\tau)^2
+
+\end{align}\]</span>
+<p>Note that <span class="citation"><a href="#ref-morlon_reconciling_2011" role="doc-biblioref">Morlon, Parsons, and Plotkin</a> (<a href="#ref-morlon_reconciling_2011" role="doc-biblioref">2011</a>)</span> made a mistake in eq. 6 and forgot to multiply <span class="math inline">\(\lambda(t)\)</span> by <span class="math inline">\(\Delta t\)</span>.</p>
+<p>We also now that <span class="math inline">\(E(0) = 1 - \rho\)</span>.</p>
+
+</div>
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-louca_extant_2020" class="csl-entry">
+Louca, Stilianos, and Matthew W. Pennell. 2020. <span>“Extant Timetrees Are Consistent with a Myriad of Diversification Histories.”</span> <em>Nature</em> 580 (7804): 502–5. <a href="https://doi.org/10.1038/s41586-020-2176-1">https://doi.org/10.1038/s41586-020-2176-1</a>.
+</div>
+<div id="ref-morlon_reconciling_2011" class="csl-entry">
+Morlon, H., T. L. Parsons, and J. B. Plotkin. 2011. <span>“Reconciling Molecular Phylogenies with the Fossil Record.”</span> <em>Proceedings of the National Academy of Sciences</em> 108 (39): 16327–32. <a href="https://doi.org/10.1073/pnas.1102543108">https://doi.org/10.1073/pnas.1102543108</a>.
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="intro.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="otto-day.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["dollar_dollar.pdf", "dollar_dollar.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

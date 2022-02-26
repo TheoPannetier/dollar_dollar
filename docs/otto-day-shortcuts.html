@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 3 Methods | A Minimal Book Example</title>
+  <title>Otto &amp; Day shortcuts | A Minimal Book Example</title>
   <meta name="description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
   <meta name="generator" content="bookdown 0.19 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 3 Methods | A Minimal Book Example" />
+  <meta property="og:title" content="Otto &amp; Day shortcuts | A Minimal Book Example" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 3 Methods | A Minimal Book Example" />
+  <meta name="twitter:title" content="Otto &amp; Day shortcuts | A Minimal Book Example" />
   
   <meta name="twitter:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
   
@@ -24,7 +24,7 @@
 <meta name="author" content="Yihui Xie" />
 
 
-<meta name="date" content="2020-07-20" />
+<meta name="date" content="2020-07-22" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -136,12 +136,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="phylogenetic-birth-death-models.html"><a href="phylogenetic-birth-death-models.html"><i class="fa fa-check"></i>Phylogenetic birth-death models</a><ul>
 <li><a href="phylogenetic-birth-death-models.html#louca_extant_2020"><span class="citation">Louca and Pennell (<span>2020</span>)</span></a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="methods.html"><a href="methods.html"><i class="fa fa-check"></i><b>3</b> Methods</a></li>
-<li class="chapter" data-level="4" data-path="applications.html"><a href="applications.html"><i class="fa fa-check"></i><b>4</b> Applications</a><ul>
-<li class="chapter" data-level="4.1" data-path="applications.html"><a href="applications.html#example-one"><i class="fa fa-check"></i><b>4.1</b> Example one</a></li>
-<li class="chapter" data-level="4.2" data-path="applications.html"><a href="applications.html#example-two"><i class="fa fa-check"></i><b>4.2</b> Example two</a></li>
+<li class="chapter" data-level="" data-path="otto-day-shortcuts.html"><a href="otto-day-shortcuts.html"><i class="fa fa-check"></i>Otto &amp; Day shortcuts</a><ul>
+<li class="chapter" data-level="" data-path="otto-day-shortcuts.html"><a href="otto-day-shortcuts.html#derive-a-continuous-model-from-a-discrete-model"><i class="fa fa-check"></i>Derive a continuous model from a discrete model</a></li>
+<li class="chapter" data-level="" data-path="otto-day-shortcuts.html"><a href="otto-day-shortcuts.html#general-solution-of-a-model"><i class="fa fa-check"></i>General solution of a model</a><ul>
+<li class="chapter" data-level="" data-path="otto-day-shortcuts.html"><a href="otto-day-shortcuts.html#linear-models-continuous-time-single-variable"><i class="fa fa-check"></i>Linear models, continuous time, single variable</a></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="final-words.html"><a href="final-words.html"><i class="fa fa-check"></i><b>5</b> Final Words</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="applications.html"><a href="applications.html"><i class="fa fa-check"></i><b>3</b> Applications</a><ul>
+<li class="chapter" data-level="3.1" data-path="applications.html"><a href="applications.html#example-one"><i class="fa fa-check"></i><b>3.1</b> Example one</a></li>
+<li class="chapter" data-level="3.2" data-path="applications.html"><a href="applications.html#example-two"><i class="fa fa-check"></i><b>3.2</b> Example two</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="final-words.html"><a href="final-words.html"><i class="fa fa-check"></i><b>4</b> Final Words</a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -163,10 +168,111 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="methods" class="section level1">
-<h1><span class="header-section-number">Chapter 3</span> Methods</h1>
-<p>We describe our methods in this chapter.</p>
+<div id="otto-day-shortcuts" class="section level1 unnumbered">
+<h1>Otto &amp; Day shortcuts</h1>
+<p>Recipes and reading notes from <span class="citation">Otto and Day (<a href="#ref-otto_biologists_2007">2007</a>)</span>.</p>
+<div id="derive-a-continuous-model-from-a-discrete-model" class="section level2 unnumbered">
+<h2>Derive a continuous model from a discrete model</h2>
+<p>Consider this discrete population growth model, with birth, death and migration:</p>
+<p><span class="math display">\[
+  n(t+1) = (1 + b)(1-d)n(t) + m
+\]</span></p>
+<ol style="list-style-type: decimal">
+<li>Shrink the length of the interval <span class="math inline">\(t+1\)</span> to something smaller, <span class="math inline">\(t+\Delta t\)</span>.
+Scale down all quantities that scale with time.
+<span class="math display">\[
+  n(t+\Delta t) = (1 + b\Delta t)(1-d\Delta t)n(t) + m\Delta t
+\]</span>
+<span class="math inline">\(b\)</span>, <span class="math inline">\(d\)</span>, and <span class="math inline">\(m\)</span> are the number of births, deaths and migrants in a single
+time step. The number that happens during <span class="math inline">\(t+\Delta t\)</span> is a fraction <span class="math inline">\(\Delta t\)</span>.</li>
+<li>Substract <span class="math inline">\(n(t)\)</span> from both sides to get <span class="math inline">\(n(\Delta t)\)</span></li>
+<li>Divide both sides by <span class="math inline">\(\Delta t\)</span>. Find a way to get <span class="math inline">\(\Delta t\)</span> out of the denominator.</li>
+<li>Shrink <span class="math inline">\(\Delta t\)</span>, taking the limit <span class="math inline">\(\lim_{\Delta t\to 0}\)</span>
+<span class="math display">\[
+  \frac{dn(t)}{dt} = \lim_{\Delta t \to 0} \frac{n(t + \Delta t) - n(t)}{\Delta t}
+\]</span></li>
+</ol>
+<p>For the above example:</p>
+<p><span class="math display">\[\begin{align}
+  \frac{n(t + \Delta t) - n(t)}{\Delta t} &amp;= \frac{(1 + b\Delta t)(1 - d\Delta t) + m\Delta t - n(t)}{\Delta t} \\
+  &amp;= bn(t) - dn(t) + m -bdn(t)\Delta t
+\end{align}\]</span></p>
+<p>yielding</p>
+<p><span class="math display">\[
+  \frac{dn(t)}{dt} = (b - d)n(t) + m
+\]</span></p>
+</div>
+<div id="general-solution-of-a-model" class="section level2 unnumbered">
+<h2>General solution of a model</h2>
+<div id="linear-models-continuous-time-single-variable" class="section level3 unnumbered">
+<h3>Linear models, continuous time, single variable</h3>
 
+<div class="lemma">
+<p><span id="lem:sepvar" class="lemma"><strong>Recipe 2.1  (Solving Differential Equations Using a Separation of Variables)  </strong></span>Differential equations that can be written as <span class="math inline">\(dn/dt = f(n) g(t)\)</span> can be solved as follows:</p>
+<ol style="list-style-type: decimal">
+<li>Define what are <span class="math inline">\(f(n)\)</span> and <span class="math inline">\(g(t)\)</span></li>
+<li><span class="math inline">\(\frac{1}{f(n)}dn = g(t)dt\)</span></li>
+<li><span class="math inline">\(\int \frac{1}{f(n)}dn = \int g(t)dt\)</span></li>
+<li>Solve and don’t forget the constants of integration on both sides.
+Lump them together on one side (<span class="math inline">\(c = c_1-c_2\)</span>).
+Set <span class="math inline">\(t=0\)</span> or <span class="math inline">\(N=0\)</span> to find the value of <span class="math inline">\(c\)</span>.
+</div></li>
+</ol>
+<p>Shortcut: the exponential growth model</p>
+<p><span class="math display">\[\begin{align}
+  \frac{dN}{dt} &amp;= rN \\
+  N(t) = N_0 e^{rt}
+\end{align}\]</span></p>
+<p><strong>Checks</strong>: take the solution and derive to find the differential equation. Use <span class="math inline">\(N_0\)</span> to replace the exponential term by some function of <span class="math inline">\(N(t)\)</span>.</p>
+<p><strong>Example</strong> with the affine function <span class="math inline">\(\frac{dN}{dt} = rN + m\)</span></p>
+<p>Setting <span class="math inline">\(f(N) = rN + m\)</span> and <span class="math inline">\(g(t) = 1\)</span>.</p>
+<p><span class="math display">\[
+\begin{align}
+  \int \frac{1}{rN + m} dn &amp;= \int 1 dt
+\end{align}
+\]</span></p>
+<p>I use rule A2.22 in Otto &amp; Day to solve the lhs, setting <span class="math inline">\(a_1 = m\)</span>, <span class="math inline">\(b_1 = r\)</span>, <span class="math inline">\(a_2 = 1\)</span> and <span class="math inline">\(b_2 = 0\)</span>.</p>
+<p><span class="math display">\[
+\begin{align}
+  \frac{1}{r} ln(|rN + m|) + cst_1 &amp;= t + cst_2 \\
+   ln(|rN + m|) &amp;= r(t + cst) \\
+   N(t) &amp;= \frac{1}{r}(e^{r(t + cst)} - m)
+\end{align}
+\]</span></p>
+<p>Setting <span class="math inline">\(t=0\)</span> to solve for the <span class="math inline">\(cst\)</span></p>
+<p><span class="math display">\[
+\begin{align}
+  N(0) &amp;= \frac{1}{r}(e^{r cst} - m) \\
+  cst  &amp;= \frac{1}{r} ln(r N_{0} + m)
+\end{align}
+\]</span></p>
+<p>So</p>
+<p><span class="math display">\[
+\begin{align}
+   n(t) &amp;= \frac{1}{r}\{e^{r(t)}(rN_0 + m) - m)\} \\
+   &amp;= N_0e^{rt} + \frac{m}{r}e^{rt} - \frac{m}{r}
+\end{align}
+\]</span></p>
+<p>First check: with <span class="math inline">\(t = 0\)</span>, I find <span class="math inline">\(N(0) = N_0\)</span>.</p>
+<p>Second check: deriving with respect to <span class="math inline">\(t\)</span>:</p>
+<p><span class="math display">\[
+\begin{align}
+   \frac{dN}{dt} &amp;= (N_0e^{rt})&#39; + \Big(\frac{m}{r}e^{rt}\Big)&#39; - \Big(\frac{m}{r}\Big)&#39; \\
+   &amp;= rN_0e^{rt} + me^{rt} \\
+   &amp;= r\Big(N_0e^{rt} + \frac{m}{r}e^{rt}\Big) \\
+   &amp;= r\Big(N(t) + \frac{m}{r}\Big) \\
+   &amp;= rN(t) + m
+\end{align}
+\]</span></p>
+
+</div>
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references">
+<div id="ref-otto_biologists_2007">
+<p>Otto, Sarah P., and Troy Day. 2007. <em>A Biologist’s Guide to Mathematical Modeling in Ecology and Evolution</em>. Princeton University Press. <a href="https://press.princeton.edu/books/hardcover/9780691123448/a-biologists-guide-to-mathematical-modeling-in-ecology-and-evolution">https://press.princeton.edu/books/hardcover/9780691123448/a-biologists-guide-to-mathematical-modeling-in-ecology-and-evolution</a>.</p>
+</div>
 </div>
             </section>
 

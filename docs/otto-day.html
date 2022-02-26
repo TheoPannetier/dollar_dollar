@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>References | A Minimal Book Example</title>
+  <title>Chapter 3 Otto &amp; Day shortcuts | A Minimal Book Example</title>
   <meta name="description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
   <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="References | A Minimal Book Example" />
+  <meta property="og:title" content="Chapter 3 Otto &amp; Day shortcuts | A Minimal Book Example" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="References | A Minimal Book Example" />
+  <meta name="twitter:title" content="Chapter 3 Otto &amp; Day shortcuts | A Minimal Book Example" />
   
   <meta name="twitter:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
   
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="otto-day.html"/>
-
+<link rel="prev" href="phylo-bd.html"/>
+<link rel="next" href="references.html"/>
 <script src="libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
@@ -203,19 +203,111 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="references" class="section level1 unnumbered">
-<h1>References</h1>
+<div id="otto-day" class="section level1" number="3">
+<h1><span class="header-section-number">Chapter 3</span> Otto &amp; Day shortcuts</h1>
+<p>Recipes and reading notes from <span class="citation"><a href="#ref-otto_biologists_2007" role="doc-biblioref">Otto and Day</a> (<a href="#ref-otto_biologists_2007" role="doc-biblioref">2007</a>)</span>.</p>
+<div id="disc-to-cont" class="section level2" number="3.1">
+<h2><span class="header-section-number">3.1</span> Derive a continuous model from a discrete model</h2>
+<p>Box 2.6, p.44 in <span class="citation"><a href="#ref-otto_biologists_2007" role="doc-biblioref">Otto and Day</a> (<a href="#ref-otto_biologists_2007" role="doc-biblioref">2007</a>)</span>.</p>
+<p>Consider this discrete population growth model, with birth, death and migration:</p>
+<p><span class="math display">\[
+  n(t+1) = (1 + b)(1-d)n(t) + m
+\]</span></p>
+<ol style="list-style-type: decimal">
+<li>Shrink the length of the interval <span class="math inline">\(t+1\)</span> to something smaller, <span class="math inline">\(t+\Delta t\)</span>.
+Scale down all quantities that scale with time.
+<span class="math display">\[
+  n(t+\Delta t) = (1 + b\Delta t)(1-d\Delta t)n(t) + m\Delta t
+\]</span>
+<span class="math inline">\(b\)</span>, <span class="math inline">\(d\)</span>, and <span class="math inline">\(m\)</span> are the number of births, deaths and migrants in a single
+time step. The number that happens during <span class="math inline">\(t+\Delta t\)</span> is a fraction <span class="math inline">\(\Delta t\)</span>.</li>
+<li>Substract <span class="math inline">\(n(t)\)</span> from both sides to get <span class="math inline">\(n(\Delta t)\)</span></li>
+<li>Divide both sides by <span class="math inline">\(\Delta t\)</span>. Find a way to get <span class="math inline">\(\Delta t\)</span> out of the denominator.</li>
+<li>Shrink <span class="math inline">\(\Delta t\)</span>, taking the limit <span class="math inline">\(\lim_{\Delta t\to 0}\)</span>
+<span class="math display">\[
+  \frac{dn(t)}{dt} = \lim_{\Delta t \to 0} \frac{n(t + \Delta t) - n(t)}{\Delta t}
+\]</span></li>
+</ol>
+<p>For the above example:</p>
+<p><span class="math display">\[\begin{align}
+  \frac{n(t + \Delta t) - n(t)}{\Delta t} &amp;= \frac{(1 + b\Delta t)(1 - d\Delta t) + m\Delta t - n(t)}{\Delta t} \\
+  &amp;= bn(t) - dn(t) + m -bdn(t)\Delta t
+\end{align}\]</span></p>
+<p>The last term drops when <span class="math inline">\(\Delta t\)</span> shrinks to 0, yielding:</p>
+<p><span class="math display">\[
+  \frac{dn(t)}{dt} = (b - d)n(t) + m
+\]</span></p>
+</div>
+<div id="solution" class="section level2 unnumbered">
+<h2>General solution of a model</h2>
+<div id="solution-lin-cont-single" class="section level3 unnumbered">
+<h3>Linear models, continuous time, single variable</h3>
 
+<div class="lemma">
+<p><span id="lem:sepvar" class="lemma"><strong>Recipe 3.1  (Solving Differential Equations Using a Separation of Variables)  </strong></span>Differential equations that can be written as <span class="math inline">\(dn/dt = f(n) g(t)\)</span> can be solved as follows:</p>
+<ol style="list-style-type: decimal">
+<li>Define what are <span class="math inline">\(f(n)\)</span> and <span class="math inline">\(g(t)\)</span></li>
+<li><span class="math inline">\(\frac{1}{f(n)}dn = g(t)dt\)</span></li>
+<li><span class="math inline">\(\int \frac{1}{f(n)}dn = \int g(t)dt\)</span></li>
+<li>Solve and don’t forget the constants of integration on both sides.
+Lump them together on one side (<span class="math inline">\(c = c_1-c_2\)</span>).
+Set <span class="math inline">\(t=0\)</span> or <span class="math inline">\(N=0\)</span> to find the value of <span class="math inline">\(c\)</span>.
+</div></li>
+</ol>
+<p>Shortcut: the exponential growth model</p>
+<p><span class="math display">\[\begin{align}
+  \frac{dN}{dt} &amp;= rN \\
+  N(t) = N_0 e^{rt}
+\end{align}\]</span></p>
+<p><strong>Checks</strong>: take the solution and derive to find the differential equation. Use <span class="math inline">\(N_0\)</span> to replace the exponential term by some function of <span class="math inline">\(N(t)\)</span>.</p>
+<p><strong>Example</strong> with the affine function <span class="math inline">\(\frac{dN}{dt} = rN + m\)</span></p>
+<p>Setting <span class="math inline">\(f(N) = rN + m\)</span> and <span class="math inline">\(g(t) = 1\)</span>.</p>
+<p><span class="math display">\[
+\begin{align}
+  \int \frac{1}{rN + m} dn &amp;= \int 1 dt
+\end{align}
+\]</span></p>
+<p>I use rule A2.22 in Otto &amp; Day to solve the lhs, setting <span class="math inline">\(a_1 = m\)</span>, <span class="math inline">\(b_1 = r\)</span>, <span class="math inline">\(a_2 = 1\)</span> and <span class="math inline">\(b_2 = 0\)</span>.</p>
+<p><span class="math display">\[
+\begin{align}
+  \frac{1}{r} ln(|rN + m|) + cst_1 &amp;= t + cst_2 \\
+   ln(|rN + m|) &amp;= r(t + cst) \\
+   N(t) &amp;= \frac{1}{r}(e^{r(t + cst)} - m)
+\end{align}
+\]</span></p>
+<p>Setting <span class="math inline">\(t=0\)</span> to solve for the <span class="math inline">\(cst\)</span></p>
+<p><span class="math display">\[
+\begin{align}
+  N(0) &amp;= \frac{1}{r}(e^{r cst} - m) \\
+  cst  &amp;= \frac{1}{r} ln(r N_{0} + m)
+\end{align}
+\]</span></p>
+<p>So</p>
+<p><span class="math display">\[
+\begin{align}
+   n(t) &amp;= \frac{1}{r}\{e^{r(t)}(rN_0 + m) - m)\} \\
+   &amp;= N_0e^{rt} + \frac{m}{r}e^{rt} - \frac{m}{r}
+\end{align}
+\]</span></p>
+<p>First check: with <span class="math inline">\(t = 0\)</span>, I find <span class="math inline">\(N(0) = N_0\)</span>.</p>
+<p>Second check: deriving with respect to <span class="math inline">\(t\)</span>:</p>
+<p><span class="math display">\[
+\begin{align}
+   \frac{dN}{dt} &amp;= (N_0e^{rt})&#39; + \Big(\frac{m}{r}e^{rt}\Big)&#39; - \Big(\frac{m}{r}\Big)&#39; \\
+   &amp;= rN_0e^{rt} + me^{rt} \\
+   &amp;= r\Big(N_0e^{rt} + \frac{m}{r}e^{rt}\Big) \\
+   &amp;= r\Big(N(t) + \frac{m}{r}\Big) \\
+   &amp;= rN(t) + m
+\end{align}
+\]</span></p>
+
+</div>
+</div>
+</div>
+<h3>References</h3>
 <div id="refs" class="references csl-bib-body hanging-indent">
-<div class="csl-entry">
-Louca, Stilianos, and Matthew W. Pennell. 2020. <span>“Extant Timetrees Are Consistent with a Myriad of Diversification Histories.”</span> <em>Nature</em> 580 (7804): 502–5. <a href="https://doi.org/10.1038/s41586-020-2176-1">https://doi.org/10.1038/s41586-020-2176-1</a>.
-</div>
-<div class="csl-entry">
-Morlon, H., T. L. Parsons, and J. B. Plotkin. 2011. <span>“Reconciling Molecular Phylogenies with the Fossil Record.”</span> <em>Proceedings of the National Academy of Sciences</em> 108 (39): 16327–32. <a href="https://doi.org/10.1073/pnas.1102543108">https://doi.org/10.1073/pnas.1102543108</a>.
-</div>
-<div class="csl-entry">
+<div id="ref-otto_biologists_2007" class="csl-entry">
 Otto, Sarah P., and Troy Day. 2007. <em>A <span>Biologist</span>’s <span>Guide</span> to <span>Mathematical</span> <span>Modeling</span> in <span>Ecology</span> and <span>Evolution</span></em>. Princeton University Press. <a href="https://press.princeton.edu/books/hardcover/9780691123448/a-biologists-guide-to-mathematical-modeling-in-ecology-and-evolution">https://press.princeton.edu/books/hardcover/9780691123448/a-biologists-guide-to-mathematical-modeling-in-ecology-and-evolution</a>.
-</div>
 </div>
 </div>
             </section>
@@ -223,8 +315,8 @@ Otto, Sarah P., and Troy Day. 2007. <em>A <span>Biologist</span>’s <span>Guide
           </div>
         </div>
       </div>
-<a href="otto-day.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="phylo-bd.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

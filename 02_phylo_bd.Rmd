@@ -1,0 +1,251 @@
+# Phylogenetic birth-death models {#phylo-bd}
+
+Equations from the litterature to describe birth-death processes in the context of phylogenetic (time)trees.
+
+```{r source-lp-utils, include=FALSE}
+source("R/lp-utils.R")
+
+```
+
+## @louca_extant_2020 {#louca}
+
+### Derivation of $N(\tau)$, $M(\tau)$ and $E(\tau)$
+
+-   $N(\tau)$ number of species in the tree at time $\tau$ in the past
+
+-   $M(\tau)$ is the dLTT = the expected (under the model) number of lineages in the tree at time $\tau$ that will be present in the tree at present
+
+-   $E(\tau)$ fraction of lineages in the tree at time $\tau$ that won't be in the tree anymore at present
+
+We note:
+
+-   $\lambda$ and $\mu$ the birth and death rate resp., which can be time-dependent ($\lambda(t)$, $\mu(t)$)
+-   $\rho$ the sampling fraction *at present*, such that $M_0 = N_0 \rho$ is the number of species sampled in the present tree (and $N_0$ is the total **living** diversity)
+
+Going backwards in time ($\tau$ is some time before present):
+
+```{=latex}
+\begin{align}
+  \frac{dN}{d\tau} &= N(\mu - \lambda) \\
+   &= N(-r) (\#eq:nbackwards)
+\end{align}
+```
+The solution of which is (perform a separation of variables):
+
+```{=tex}
+\begin{align}
+  N(\tau) &= N_{0}e^{\left[ \int_0^\tau \mu(u) - \lambda(u) du \right]} (\#eq:nbalive)
+\end{align}
+```
+i.e. the number of species alive (but not necessarily sampled in the tree) at time $\tau$ in the past.
+
+Let's introduce $E(\tau)$, the fraction of lineages alive at time $\tau$ that won't be included in the final tree, because of either extinction or being missing from the sample. In a stochastic setting, it is also the probability that a single lineage will be missing from the final tree. $E(\tau)$ is introduced in @morlon_reconciling_2011, eqs. 5-7 (where it is named $\phi(t)$) (see also the derivation below):
+
+```{=tex}
+\begin{align}
+\frac{dE}{d\tau} &= \mu - E (\lambda + \mu) + E^2\lambda \\
+E(0) &= 1 - \rho 
+(\#eq:fracmissing)
+\end{align}
+```
+Its solution is (eq. 2 in @morlon_reconciling_2011):
+
+$$
+E(\tau) = 1 - \frac{e^{\int_0^\tau \lambda(u) - \mu(u) du}}{\frac{1}{\rho} + \int_0^\tau e^{\int_0^s \lambda(u) - \mu(u) du} \lambda_s ds} 
+(\#eq:fracmissingsol)
+$$
+
+where $s$ is some time before $\tau$, and $\rho$ is the probability that an extant lineage is sampled at present, aka sampling fraction.
+
+The deterministic LTT, i.e. the number of lineages present in the final tree, through time, is (by definition of $M$ and $E$) given by:
+
+$$
+M(\tau) = N(\tau)(1 - E(\tau)) 
+(\#eq:dltt)
+$$
+
+Taking the derivative and replacing with \@ref(eq:nbackwards) and \@ref(eq:fracmissing) yields
+
+$$
+  \frac{dM}{d\tau} = M\lambda(E-1)
+  (\#eq:dltt-deriv)
+$$Notice that $(E - 1)$ is most likely negative, $M$ declines as we go in the past, ok. If all lineages will be included in the tree ($E = 0$, which requires $\mu = 0$), then $M$ simply changes by $-M\lambda$, that is the growth rate.
+
+The solution to \@ref(eq:dltt-deriv) (taking $M(0) = M_0$ and using a separation of variables) is:
+
+$$
+  M(\tau) = M_0e^{\int_0^\tau \lambda(u) (E(u) - 1) du}
+  (\#eq:dltt2)
+$$ This equation fully describes the LTT expected given the birth-death model, aka the **dLTT**.
+
+**Remarks**
+
+-   All terms in this equation are independent of the data! So model congruency (sharing the same dLTT) is a property of the models alone.
+-   Extinction does not appear in \@ref(eq:dltt2), but is in fact hidden in $E(\tau)$
+-   In \@ref(eq:dltt-deriv), $0<E<1$, so that the rhs is negative or zero: we move backwards in time and lose lineages in the phylogeny, proportionally to rate $\lambda$. The term $\lambda(E-1)$ ("growth" rate) can be developped into $\lambda E - \lambda$, illustrating that we are gaining lineages that would disappear later in time, and losing those that speciate later.
+
+### PSR, PDR { \#psr-pdr }
+
+-   PSR: pulled speciation rate, the relative slope of $M(\tau)$
+
+    $\lambda(\tau) = -\frac{1}{M}\frac{dM}{d\tau}$
+
+-   PDR: pulled diversification rate
+
+```{r call-lp-utils}
+r(0:15)
+
+```
+
+### Likelihood { \#likelihood }
+
+After @morlon_reconciling_2011:
+
+$$
+L = \frac{\rho^{n+1} \Psi(\tau_1, \tau_0)}{ 1 - E(\tau_0)}\prod_{i = 1}^n \lambda(\tau_i) \Psi(s_{i,1}, \tau_i) \Psi(s_{i,2}, \tau_i) (\#eq:likelihood-morlon)
+$$
+
+-   $n$ branching points ($n+1$ lineages at time $0$)
+
+-   $\tau_0$ stem age, $\tau_1$ crown age, $\tau_i$ branching points, $s_{i, 1}$ , $s_{i, 2}$ branching points of daughter lineages.
+
+-   $\rho$ sampling fraction ($\rho^{n+1}$ p that all lineages are sampled)
+
+-   conditioning $\frac{1}{1 - E(\tau_0)}$ that stem lineage survives and is observed
+
+-   $\Psi(s, \tau)$ p that a lineage alive at time $\tau$ has *exactly one* descendant at time $s$ = probability of observing each branch.
+
+$$
+\Psi(s, \tau) = e^{R(\tau) - R(s)} \Big[\frac{1 + \rho \int_0^s \lambda(u) e^{R(u)} du}{1 + \rho \int_0^\tau \lambda(u) e^{R(u)} du} \Big]^2 (\#eq:psi)
+$$
+
+where $R(\tau)$ is the integral of the net diversification rate
+
+$$
+R(\tau) = \int_0^\tau \lambda(u) - \mu(u) du
+$$
+
+Because the probabilities of the branches cancel out, \@ref(eq:likelihood-morlon) simplifies to:
+
+$$
+L = \frac{\rho^{n+1} \Psi(0, \tau_0)}{ 1 - E(\tau_0)}\prod_{i = 1}^n \lambda(\tau_i) \Psi(0, \tau_i) (\#eq:likelihood-morlon2)
+$$
+
+using the definitions of the PSR and PDR, the likelihood can be rewritten as
+
+$$
+L = \frac{M(\tau_0)}{M_0^{n+1}}\prod_{i = 1}^n \lambda_p(\tau_i) M(\tau_i) (\#eq:likelihood-louca)
+$$
+
+which, applying the def of the PSR, turns into
+
+$$
+L = \frac{M(\tau_0)}{M_0^{n+1}}\prod_{i = 1}^n -\frac{dM}{d\tau}|_{\tau_{i}}(\#eq:likelihood-louca2)
+$$
+
+(vertical bar denotes that $d\tau$ is evaluated at $\tau_i$, so the instantaneous change in $M$ at this point in time)
+
+There are also variants if only the crown age, and not the stem age, is known:
+
+$$
+L_r = \frac{\rho^{n+1} \Psi(0, \tau_1)}{\lambda(\tau_1)[1 - E(\tau_1)]^2}\prod_{i = 1}^n \lambda(\tau_i) \Psi(0, \tau_i) (\#eq:likelihood-morlon-crown)
+$$
+
+$$
+L_r = \frac{M^2(\tau_1)}{M_0^{n+1}}\prod_{i = 2}^n -\frac{dM}{d\tau}|_{\tau_{i}}(\#eq:likelihood-louca-crown)
+$$
+
+## @morlon_reconciling_2011 {#morlon-2011}
+
+### Derivation of $E(\tau)$ equations {#derive-e .unnumbered}
+
+$E(\tau)$ (or $\Phi(t)$ in @morlon_reconciling_2011) denotes the probability that a lineage alive at $\tau$ won't have any descendant included in the final tree.
+
+There are three main combinations of events that can lead to a lineage not having descendants in the final tree: 1. Lineage goes extinct (with probability $\mu(\tau)$ in a single time unit) 2. No extinction ($1 - \mu(\tau)$), no speciation ($1 - \lambda(\tau)$), lineage not observed at present ($E(\tau)$). 3. No extinction ($1 - \mu(\tau)$), lineage undergoes speciation ($\lambda(\tau)$) but neither parent or daughter are observed at present ($E(\tau) * E(\tau)$).
+
+From this the following recursion can be written:
+
+```{=tex}
+\begin{align}
+  E(\tau + 1) &= \mu \\
+  & + (1 - \mu(\tau))(1 - \lambda(\tau)) E(\tau) \\
+  & + (1 - \mu(\tau)) \lambda(\tau) E(\tau)^2 \\
+  & + o(\tau)
+\end{align}
+```
+More complex series of events (e.g. multiple speciation events followed by extinction or non-sampling) are assumed very unlikely to happen in the typical time intervals and rates considered; and thus ignored ($o(\tau)$.
+
+Deriving an ODE from this recursion goes as follows (see \@ref(disc-to-cont) ):
+
+```{=tex}
+\begin{align}
+  E(\tau + \Delta \tau) &= \mu\Delta \tau \\
+  & + (1 - \mu(\tau)\Delta \tau)(1 - \lambda(\tau)\Delta \tau) E(\tau) \\
+  & + (1 - \mu(\tau)\Delta \tau) \lambda(\tau)\Delta \tau E(\tau)^2 \\
+  
+  E(\tau + \Delta \tau) - E(\tau) &= \mu\Delta \tau \\
+  & - (\lambda + \mu + \lambda \mu \Delta \tau^2) \Delta \tau E(\tau) \\
+  & + (1 - \mu(\tau)\Delta \tau) \lambda(\tau)\Delta \tau E(\tau)^2 \\
+
+  \frac{E(\tau + \Delta \tau) - E(\tau)}{\Delta\tau} &= \mu \\
+  & - (\lambda + \mu + \lambda \mu \Delta \tau^2) E(\tau) \\
+  & + (1 - \mu(\tau)\Delta \tau) \lambda(\tau) E(\tau)^2
+  \\
+
+\lim_{\Delta\tau \to 0} \frac{E(\tau + \Delta \tau) - E(\tau)}{\Delta\tau} &= \mu \\
+  & - (\lambda + \mu) E(\tau) \\
+  & + \lambda(\tau) E(\tau)^2
+  \\
+
+\frac{dE}{d\tau} &= \mu - (\lambda + \mu) E(\tau) + \lambda(\tau) E(\tau)^2
+
+\end{align}
+```
+Note that @morlon_reconciling_2011 made a mistake in eq. 6 and forgot to multiply $\lambda(t)$ by $\Delta t$.
+
+We also now that $E(0) = 1 - \rho$.
+
+# @morlon_prior_2020
+
+A critic on @louca_extant_2020.
+
+### S.1 **Fitting the pulled rates also requires model selection or regularization**
+
+Obtaining the PSR, PDR requires a non-parametric approach. This approach relies on methods and parameters, including
+
+Two choices:
+
+-   **Functional basis:** method used to obtain the estimates at some points in time?
+
+    Possible options: piecewise-polynomial, wavelets, Fourier
+
+-   **Regularization**: method used to interpolate between points?
+
+    Possible options: smoothness, parsity
+
+Several options are possible, and choice is arbitrary, but affects the estimated rates.
+
+### S.2 **Regularization techniques**
+
+"smoothing" or "shrinkage" (what are those?), or bayesian priors (how?) should allow to solve the issue of unidentifiability
+
+### S.3 Vangas example
+
+Morlon et al. take a phylogeny of Vangidae, and start from a BD model ($M$) they previously selected with model selection + AIC
+
+$$
+\lambda(t) = \lambda_0 * e^{\alpha t} \\
+\mu(t) = 0
+$$
+
+Then find models that are congruent with it, 1) by assuming constant extinction ($M^*_1$), 2) by assuming constant extinction ($M^*_2$). Not sure what point they want to make with it.
+
+Then, different approach: they fit $r_p(t)$ to the tree, using either a spline of degree 1 (piecewise linear) or 2 (quadratic??) and deduce the (congruent) BD models obtained from it assuming 1) extinction is constant 2) speciation is constant.
+
+Fitting $r_p$ requires a pre-defined grid of time points. Morlon et al. choose to use model selection to fit this grid, using the AIC to select nb of points. L&P do not give much indication on how to set the grid, so it must be assumed?
+
+The speciation and extinction functions obtained from both $r_p$ show quite different evolutionary histories, though both $\lambda(t)$ inferred from assuming constant extinction show that extinction declines over time. This shows that fitting $r_p$ also calls for modelling choices and some model selection; which results may importantly affect the outcome of the inference.
+
+# @helmstetter2021
+
+-   Box 1., on the difference between dLTT and LTT. Real-world phylogenies include jumps in $N$, while birth-death models and the dLTT assumes continuous change in $N$. As a result, there is a risk of overparameterization for small phylogenies, as the fitted dLTT will attempt to approach the stair shape of the LTT. This is less an issue in large phylogenies where the LTT is smoother and approaches something continuous. Second consequence: rate estimation considers a time interval, which must be sufficiently large to include enough events for estimation, particularly for deep branches. But this comes with a trade-off: larger intervals are likely to miss rapid changes in the rates, i.e. if those happen inside the intervals in addition to between.

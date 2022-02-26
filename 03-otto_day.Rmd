@@ -1,0 +1,117 @@
+# Otto & Day shortcuts {#otto-day}
+
+Recipes and reading notes from @otto_biologists_2007.
+
+## Derive a continuous model from a discrete model {#disc-to-cont}
+
+Box 2.6, p.44 in @otto_biologists_2007.
+
+Consider this discrete population growth model, with birth, death and migration:
+
+$$
+  n(t+1) = (1 + b)(1-d)n(t) + m
+$$
+
+1. Shrink the length of the interval $t+1$ to something smaller, $t+\Delta t$.
+Scale down all quantities that scale with time.
+$$
+  n(t+\Delta t) = (1 + b\Delta t)(1-d\Delta t)n(t) + m\Delta t
+$$
+$b$, $d$, and $m$ are the number of births, deaths and migrants in a single 
+time step. The number that happens during $t+\Delta t$ is a fraction $\Delta t$.
+2. Substract $n(t)$ from both sides to get $n(\Delta t)$
+3. Divide both sides by $\Delta t$. Find a way to get $\Delta t$ out of the denominator. 
+4. Shrink $\Delta t$, taking the limit $\lim_{\Delta t\to 0}$
+$$
+  \frac{dn(t)}{dt} = \lim_{\Delta t \to 0} \frac{n(t + \Delta t) - n(t)}{\Delta t}
+$$
+
+For the above example:
+
+\begin{align}
+  \frac{n(t + \Delta t) - n(t)}{\Delta t} &= \frac{(1 + b\Delta t)(1 - d\Delta t) + m\Delta t - n(t)}{\Delta t} \\
+  &= bn(t) - dn(t) + m -bdn(t)\Delta t
+\end{align}
+
+The last term drops when $\Delta t$ shrinks to 0, yielding:
+
+$$
+  \frac{dn(t)}{dt} = (b - d)n(t) + m
+$$
+
+## General solution of a model {- #solution}
+
+### Linear models, continuous time, single variable {- #solution-lin-cont-single}
+
+```{lemma, label="sepvar", name="Solving Differential Equations Using a Separation of Variables"}
+Differential equations that can be written as $dn/dt = f(n) g(t)$ can be solved as follows:
+
+  1. Define what are $f(n)$ and $g(t)$
+  2. $\frac{1}{f(n)}dn = g(t)dt$
+  3. $\int \frac{1}{f(n)}dn = \int g(t)dt$
+  4. Solve and don't forget the constants of integration on both sides. 
+  Lump them together on one side ($c = c_1-c_2$). 
+  Set $t=0$ or $N=0$ to find the value of $c$.
+```
+
+Shortcut: the exponential growth model
+
+\begin{align}
+  \frac{dN}{dt} &= rN \\
+  N(t) = N_0 e^{rt}
+\end{align}
+
+__Checks__: take the solution and derive to find the differential equation. Use $N_0$ to replace the exponential term by some function of $N(t)$.
+
+__Example__ with the affine function $\frac{dN}{dt} = rN + m$
+
+Setting $f(N) = rN + m$ and $g(t) = 1$.
+
+$$
+\begin{align}
+  \int \frac{1}{rN + m} dn &= \int 1 dt
+\end{align}
+$$
+
+I use rule A2.22 in Otto & Day to solve the lhs, setting $a_1 = m$, $b_1  = r$, $a_2 = 1$ and $b_2 = 0$.
+
+$$
+\begin{align}
+  \frac{1}{r} ln(|rN + m|) + cst_1 &= t + cst_2 \\
+   ln(|rN + m|) &= r(t + cst) \\
+   N(t) &= \frac{1}{r}(e^{r(t + cst)} - m)
+\end{align}
+$$
+
+Setting $t=0$ to solve for the $cst$
+
+$$
+\begin{align}
+  N(0) &= \frac{1}{r}(e^{r cst} - m) \\
+  cst  &= \frac{1}{r} ln(r N_{0} + m)
+\end{align}
+$$
+
+So
+
+$$
+\begin{align}
+   n(t) &= \frac{1}{r}\{e^{r(t)}(rN_0 + m) - m)\} \\
+   &= N_0e^{rt} + \frac{m}{r}e^{rt} - \frac{m}{r}
+\end{align}
+$$
+
+First check: with $t = 0$, I find $N(0) = N_0$.
+
+Second check: deriving with respect to $t$:
+
+$$
+\begin{align}
+   \frac{dN}{dt} &= (N_0e^{rt})' + \Big(\frac{m}{r}e^{rt}\Big)' - \Big(\frac{m}{r}\Big)' \\
+   &= rN_0e^{rt} + me^{rt} \\
+   &= r\Big(N_0e^{rt} + \frac{m}{r}e^{rt}\Big) \\
+   &= r\Big(N(t) + \frac{m}{r}\Big) \\
+   &= rN(t) + m
+\end{align}
+$$
+

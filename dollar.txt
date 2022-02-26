@@ -1,0 +1,39 @@
+@article{louca_extant_2020,
+	title = {Extant timetrees are consistent with a myriad of diversification histories},
+	volume = {580},
+	copyright = {2020 The Author(s), under exclusive licence to Springer Nature Limited},
+	issn = {1476-4687},
+	url = {http://www.nature.com/articles/s41586-020-2176-1},
+	doi = {10.1038/s41586-020-2176-1},
+	abstract = {An infinite number of alternative\&nbsp;diversification scenarios‚Äîwhich may have markedly different, but equally plausible, dynamics‚Äîcan underpin a given time-calibrated phylogeny of extant species, suggesting many previous studies have over-interpreted phylogenetic evidence.},
+	language = {en},
+	number = {7804},
+	urldate = {2020-04-22},
+	journal = {Nature},
+	author = {Louca, Stilianos and Pennell, Matthew W.},
+	month = apr,
+	year = {2020},
+	note = {Number: 7804
+Publisher: Nature Publishing Group},
+	pages = {502--505},
+	file = {Full Text PDF:/Users/theo/Zotero/storage/LKWZU3D7/Louca and Pennell - 2020 - Extant timetrees are consistent with a myriad of d.pdf:application/pdf;Louca and Pennell - 2020 - Extant timetrees are consistent with a myriad of d.pdf:/Users/theo/Zotero/storage/X5DHVCF7/Louca and Pennell - 2020 - Extant timetrees are consistent with a myriad of d.pdf:application/pdf;Snapshot:/Users/theo/Zotero/storage/HASTENDF/s41586-020-2176-1.html:text/html}
+}
+
+@article{morlon_reconciling_2011,
+	title = {Reconciling molecular phylogenies with the fossil record},
+	volume = {108},
+	issn = {0027-8424, 1091-6490},
+	url = {http://www.pnas.org/cgi/doi/10.1073/pnas.1102543108},
+	doi = {10.1073/pnas.1102543108},
+	language = {en},
+	number = {39},
+	urldate = {2018-08-15},
+	journal = {Proceedings of the National Academy of Sciences},
+	author = {Morlon, H. and Parsons, T. L. and Plotkin, J. B.},
+	month = sep,
+	year = {2011},
+	pages = {16327--16332},
+	file = {Morlon et al. - 2011 - Reconciling molecular phylogenies with the fossil .pdf:/Users/theo/Zotero/storage/DGWV6EM6/Morlon et al. - 2011 - Reconciling molecular phylogenies with the fossil .pdf:application/pdf}
+}
+
+
